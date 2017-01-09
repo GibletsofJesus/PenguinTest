@@ -1,0 +1,24 @@
+Unity 5 Test
+
+Setup Unity5, open project and switch to a mobile platform. 
+
+Please complete the following requirements:
+1. Locate the required sprites in the Assets/Sprites folder. Use the Unity Texture Packer or other external tools to create atlases from these sprites, grouping them accordingly and making them mobile friendly. NOTE: All resources are created for the 2560x1440 screen resolution.
+2. Create the static game scene using the sprites from the atlases, using the following image as reference: Assets/SAMPLES/scene reference.jpg. NOTE:Some images like the ice cubes must be flipped/scaled in order to complete the board for the penguin. Please don't use the new Unity Canvas UI, use the Sprite component instead.
+3. Create the penguin character which has multiple states: front, back, side, each one made from the sprites found in the Assets/Character/... folders.
+4. Create a Button class that handles the ROLL button on the screen
+5. Implement the following game mechanics:
+	- the user can press the ROLL button which generates a random number between 1..6 (you can display it somewhere on the screen or on the wooden board with a TextMesh component)
+	- the penguin will move the given number of steps starting from the top right corner and advancing counter clockwise.
+	- the penguin should have some simple animations when advancing across the board, use the provided samples to build these animations
+	- the penguin should be seen from side, front, back when moving, but when standing still he can be displayed only from the front.
+	- after completing a movement, the penguin should remain on the last ice cube, waiting for another press of the ROLL button.
+	- when starting a new movement, the penguin should move from the current position
+
+
+Bonus elements:
+- get as close as possible to the references
+- smooth animations and penguin movements
+- ROLL button to react at user press
+- water tile to be applied under the ice cubes
+- some collect effect for elements scattered on the trail (fishes)
