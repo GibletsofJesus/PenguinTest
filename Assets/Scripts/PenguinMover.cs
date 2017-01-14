@@ -19,7 +19,7 @@ public class PenguinMover : MonoBehaviour
 	[SerializeField]
 	Animator anim;
 
-	//The side on view of the penguin
+	//The side and front on view of the penguin
 	[SerializeField]
 	GameObject sideguin, frontguin;
 
@@ -38,22 +38,28 @@ public class PenguinMover : MonoBehaviour
 	void Start ()
 	{
 		instance = this;
+		allSprites = GetComponentsInChildren<SpriteRenderer>();
 	}
 
+	//For moving along the board, triggered by NumberRoller
 	public IEnumerator MoveToPoint (int diceRoll, NumberRoller callback)
 	{
 		for (int i = 0; i < diceRoll; i++) {
 			yield return StartCoroutine(MoveToTarget(iceCubes [position < 17 ? position + 1 : 0]));
 		}
+
+		//Finished moving, enable roll button.
 		callback.enabledButton = true;
 
+		//Display front penguin view
 		frontguin.SetActive(true);
 		sideguin.SetActive(false);
-		//Do sprites for forward facing penguin
+		//Enable sprites for forward facing penguin
 		frontBackSprites(true);
 		anim.Play("front_idle");
 	}
 
+	//For moving to the next available positon
 	IEnumerator MoveToTarget (Transform target)
 	{
 		float lerpy = 0;
@@ -74,7 +80,6 @@ public class PenguinMover : MonoBehaviour
 				anim.Play("left_walk");
 			}
 			else if (position < 9) {
-
 					frontguin.SetActive(true);
 					sideguin.SetActive(false);
 					frontBackSprites(true);
@@ -102,7 +107,7 @@ public class PenguinMover : MonoBehaviour
 		position = position < 17 ? position + 1 : 0;
 	}
 
-	//Toggle various sprites and sorting orders for back/front wanimations
+	//Toggle various sprites and sorting orders for back/front/side animations
 	void frontBackSprites (bool front)
 	{
 		scarf.enabled = front;
@@ -114,19 +119,21 @@ public class PenguinMover : MonoBehaviour
 		pole.sortingOrder = front ? 100 : 98;		
 	}
 
+	SpriteRenderer[] allSprites;
+	//Enable/disable sprites for a specified amount of time
 	public IEnumerator flashSprites (float duration)
 	{
-		SpriteRenderer[] sprites = GetComponentsInChildren<SpriteRenderer>();
 		float timeElapsed = 0, interval = 0.1f;
 		while (timeElapsed < duration) {
 			timeElapsed += interval;
-			foreach (SpriteRenderer sr in sprites) {
+			foreach (SpriteRenderer sr in allSprites) {
 				sr.enabled = !sr.enabled;
 			}
 			yield return new WaitForSeconds (interval);
 		}
 
-		foreach (SpriteRenderer sr in sprites) {
+		//Make sure everything is enabled before we leave
+		foreach (SpriteRenderer sr in allSprites) {
 			sr.enabled = true;
 		}
 	}
@@ -134,6 +141,7 @@ public class PenguinMover : MonoBehaviour
 	[SerializeField]
 	AudioClip[] feetSounds;
 
+	//Triggered by animation events, plays flipper sounds for penguin feet
 	public void playFootSound ()
 	{
 		if (feetSounds.Length > 0)

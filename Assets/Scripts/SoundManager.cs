@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
+//Repurposed from a previous project
+//Does what it says on the tin, centralises audio control to a single class
 public class SoundManager : MonoBehaviour
 {
 
@@ -58,6 +60,7 @@ public class SoundManager : MonoBehaviour
 	public void playSound (AudioClip sound, float volume = 1, float pitch = 1)
 	{
 		int c = 0;
+		//If there isn't an available audio source the play the sound form, add a new Audio Source and use that one.
 		while (c < audioSrcs.Count) {
 			if (!audioSrcs [c].isPlaying) {
 				audioSrcs [c].pitch = pitch;

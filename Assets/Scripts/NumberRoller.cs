@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 //Handles the roll button and associated UI
-
 public class NumberRoller : MonoBehaviour
 {
 	public static NumberRoller instance;
@@ -42,6 +41,7 @@ public class NumberRoller : MonoBehaviour
 		}
 	}
 
+	//Scrolls through available number before settling on a value
 	IEnumerator roll ()
 	{
 		//How long this process should last for
@@ -66,21 +66,21 @@ public class NumberRoller : MonoBehaviour
 
 			//Play a sound for each changing number
 			SoundManager.instance.playSound(tickSound,1,Random.Range(.95f,1.05f));
-			//if (timeElapsed + waitTime < spinTime)
 			yield return new WaitForSeconds (waitTime);
 		}
+
+		//Do a special sound & make the UI number flash
 		StartCoroutine(flashNumber(0.5f));
 		SoundManager.instance.playSound(SoundEffect);
-		//Do a special sound & make the UI number flash
-		//yield return new WaitForSeconds (.5f);
-
 
 		//Move that penguin.
 		StartCoroutine(PenguinMover.instance.MoveToPoint(result,this));
+		//Also move the reflection of the penguin, with animations
 		if (PenguinMover.instance.reflection != null)
 			StartCoroutine(PenguinMover.instance.reflection.MoveToPoint(result,this));
 	}
 
+	//Disable/enable number visibility to indicate roll outcome
 	IEnumerator flashNumber (float duration)
 	{
 		float timeElapsed = 0, interval = 0.1f;
@@ -90,6 +90,7 @@ public class NumberRoller : MonoBehaviour
 			yield return new WaitForSeconds (interval);
 		}
 
+		//Make sure we don't leave it off
 		uiNumber.enabled = true;
 	}
 }

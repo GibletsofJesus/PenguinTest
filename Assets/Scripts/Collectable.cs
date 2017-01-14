@@ -23,16 +23,19 @@ public class Collectable : MonoBehaviour
 		}
 	}
 
+	//For activating visual collection effects
 	IEnumerator coolStuff ()
 	{
+		//Flash penguin sprites to indicate negative effect
 		if (badFish)
 			PenguinMover.instance.StartCoroutine(PenguinMover.instance.flashSprites(1.25f));
 
 		//Spin + scale fish
 		collectionEffects.Play("collection");
+		//Play sound effects
 		SoundManager.instance.playSound(collectionSound,1,badFish ? 0.3f : 1);
 		yield return new WaitForSeconds (0.7f);
-		//Rad particles
+		//Play rad particle effects
 		particles.Play();
 		yield return new WaitForSeconds (0.25f);
 
