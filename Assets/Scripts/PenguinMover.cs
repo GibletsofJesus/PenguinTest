@@ -130,4 +130,13 @@ public class PenguinMover : MonoBehaviour
 			sr.enabled = true;
 		}
 	}
+
+	[SerializeField]
+	AudioClip[] feetSounds;
+
+	public void playFootSound ()
+	{
+		if (feetSounds.Length > 0)
+			SoundManager.instance.playSound(feetSounds [Random.Range(0,feetSounds.Length - 1)],.5f,Random.Range(0.95f,1.05f));
+	}
 }
