@@ -21,6 +21,11 @@ public class SoundManager : MonoBehaviour
 		public float volumeLimit;
 	}
 
+	public void Mute (bool m)
+	{
+		changeVolume(m ? 0 : 1);
+	}
+
 	void Awake ()
 	{
 		for (int i = 0; i < numberOfSources; i++) {
